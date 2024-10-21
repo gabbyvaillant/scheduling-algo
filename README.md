@@ -1,6 +1,5 @@
-# Energy-Efficient Scheduling Algorithms in Cloud Computing: A Hybrid Approach
+# Optimizing AI Workloads for GPU Efficiency
 
-This project aims to investigate and compare the energy efficiency of scheduling algorithms while also aiming to improve the efficiency of a selected modern scheduling algorithm. We plan to identify which algorithm offers the best trade-off between energy consumption and performance when handling time-varying tasks. We aim to reduce GPU usage and makespan of a particular novel open-source scheduling algorithm. 
-
+This research project focuses on optimizing the scheduling of AI/ML workloads to improve energy efficiency and GPU utilization. As artificial intelligence and machine learning applications become more prevalent, the need for sustainable computing practices is increasingly critical. This project explores scheduling algorithms to enhance the performance of GPU-based resources for simple machine learning workloads.
 
 Contributors: Gabrielle Vaillant, Michael Deisler, Iftekhar Alam
