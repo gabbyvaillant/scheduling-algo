@@ -44,8 +44,8 @@ nvidia-smi
 
 ```
 You should get something like the following output: 
-![Alt Text](scheduling-algo/screenshots
-/gpu-setup.png)
+![Alt Text]([scheduling-algo/screenshots
+/gpu-setup.png](https://github.com/gabbyvaillant/scheduling-algo/blob/main/screenshots/gpu-setup.png))
 
 
 To set up the GPU usage montior, use the commands in the script titled GPU-setup.sh once on Cloudlab
