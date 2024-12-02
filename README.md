@@ -128,5 +128,12 @@ Go to /cloudlab-code/RF/ to find the file for the reinforcement learning schedul
 
 
 
+
+---
+
+## RUNNING GPU SIMULATIONS 
+
+[enter directions here]
+
 This project was created for AMS 560.
 Contributors: Gabrielle Vaillant, Michael Deisler, Iftekhar Alam
