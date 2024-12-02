@@ -24,6 +24,22 @@ ssh vailg@c240g5-110219.wisc.cloudlab.us
 
 
 ```
+## 2. Clone this repository 
+
+
+```bash
+# Install git on node
+
+sudo apt update
+sudo apt install git
+
+#Check to see if it properly installed
+git --version
+
+#Clone this repository
+git clone https://github.com/gabbyvaillant/scheduling-algo.git
+
+```
 
 ## 2. Set up GPU driver
 
@@ -71,26 +87,19 @@ conda activate tf_gpu
 
 conda install pip
 
-pip install tensorflow==2.7
+python3 -m pip install 'tensorflow[and-cuda]'
+
+#pip install tensorflow==2.7
 
 conda install -c conda-forge cudatoolkit=11.5 cudnn=8.3
 
 ```
-Create a new python script to see if Tensorflow/cuda is recognizing the GPUs
 
+Run the check_gpu.py script to see if tensorflow and cude recognizes the GPU
 
 ```bash
 
-nano check_gpu.py
-
-```
-
-In the python file enter the following code: 
-
-```python
-
-import tensorflow as tf
-print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
+python3 check_gpu.py
 
 ```
 To save and close use hit Shift+control X and hit enter to save
@@ -104,10 +113,13 @@ python3 check_gpu.py
 ```
 The output should say that there are 1 GPU available. 
 
-To set up the GPU usage montior, use the commands in the script titled GPU-setup.sh once on Cloudlab
 
-4. Run basline scheduling algorithms (FCFS, Round-Robin) on tasks
+## 4. Run basline scheduling algorithms (FCFS, Round-Robin) on ML tasks
 
-5. Run reinforcement learning based scheduling algorithms on tasks
+Use the 
+
+5. 
+
+6. Run reinforcement learning based scheduling algorithms on tasks
 
 Contributors: Gabrielle Vaillant, Michael Deisler, Iftekhar Alam
