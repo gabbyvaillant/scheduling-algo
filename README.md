@@ -18,11 +18,28 @@ Start an experiment with the following choices:
 - Number of compute nodes (at Site 1) -> 0 or 1
 - Schedule experiment for a time where there is resouce avilability 
 
-2. Set up GPU usage monitor
+2. Set up GPU driver
+```bash
+sudo apt install ubuntu-drivers-common
+
+sudo ubuntu-drivers list
+# check if ubuntu-drivers install successfully
+
+sudo ubuntu-drivers install
+
+sudo reboot
+# reboot the system after ubuntu-drivers install
+# you will loss connection and this step need some time
+
+# After reboot, reconnect with your system and check if NVIDIA drivers install successfully or not
+nvidia-smi
+
+# if error: NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running. Try to repeat the above steps
+```
 To set up the GPU usage montior, use the commands in the script titled GPU-setup.sh once on Cloudlab
 
-3. Run basline scheduling algorithms (FCFS, Round-Robin) on tasks
+4. Run basline scheduling algorithms (FCFS, Round-Robin) on tasks
 
-4. Run reinforcement learning based scheduling algorithms on tasks
+5. Run reinforcement learning based scheduling algorithms on tasks
 
 Contributors: Gabrielle Vaillant, Michael Deisler, Iftekhar Alam
