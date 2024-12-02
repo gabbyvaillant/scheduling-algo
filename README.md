@@ -134,7 +134,8 @@ Go to /cloudlab-code/RF/ to find the file for the reinforcement learning schedul
 
 ## RUNNING GPU SIMULATIONS 
 
-[enter directions here]
+For the Reinforcement learning model, running the model prediction code will simulate GPU scheduling using the trained RL model.
+Load the model and run the code in "...".
 
 This project was created for AMS 560.
 Contributors: Gabrielle Vaillant, Michael Deisler, Iftekhar Alam
