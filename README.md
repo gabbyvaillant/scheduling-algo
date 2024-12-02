@@ -10,6 +10,8 @@ This project uses Cloudlab for GPU access. Students in AMS 560 will have access 
 
 Check to see the resource availability: https://www.cloudlab.us/resinfo.php
 
+Check to see which hardwares have access to GPUs: https://docs.cloudlab.us/hardware.html
+
 Start an experiment with the following choices:
 - Profile: Open-Stack
 - Hardware type: Cloudlab Wiscosin -> d7525 (or another hardware with GPU access)
