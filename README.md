@@ -11,8 +11,8 @@ Check to see which hardwares have access to GPUs: https://docs.cloudlab.us/hardw
 
 Start an experiment with the following choices:
 - Profile: Open-Stack
-- Hardware type: Cloudlab Wiscosin -> d7525 (or another hardware with GPU access)
-- Number of compute nodes (at Site 1) -> 0 or 1
+- Hardware type: Cloudlab Wiscosin -> c240g5 (or another hardware with at least 1 GPU)
+- Number of compute nodes (at Site 1) -> 0
 - Schedule experiment for a time where there is resource availability 
 
 Open terminal and ssh into node 
