@@ -41,7 +41,7 @@ git clone https://github.com/gabbyvaillant/scheduling-algo.git
 
 ```
 
-## 2. Set up GPU driver
+## 3. Set up GPU driver
 
 ```bash
 sudo apt install ubuntu-drivers-common
@@ -64,7 +64,7 @@ You should get something like the following output:
 /gpu-setup.png](https://github.com/gabbyvaillant/scheduling-algo/blob/main/screenshots/gpu-setup.png))
 
 
-## 3. Create a virtual enviornment to run the machine learning tasks
+## 4. Create a virtual enviornment to run the machine learning tasks
 
 Install miniconda to create a virtual enviornment on the node 
 ```bash
@@ -114,12 +114,17 @@ python3 check_gpu.py
 The output should say that there are 1 GPU available. 
 
 
-## 4. Run basline scheduling algorithms (FCFS, Round-Robin) on ML tasks
+## 5. Run basline scheduling algorithms (FCFS, Round-Robin) on ML tasks
 
 Use the 
 
-5. 
+6. 
 
-6. Run reinforcement learning based scheduling algorithms on tasks
+7. Run reinforcement learning based scheduling algorithms on tasks
+
+
+
+
+
 
 Contributors: Gabrielle Vaillant, Michael Deisler, Iftekhar Alam
