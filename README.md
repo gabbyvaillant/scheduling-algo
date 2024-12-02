@@ -93,6 +93,9 @@ python3 -m pip install 'tensorflow[and-cuda]'
 
 conda install -c conda-forge cudatoolkit=11.5 cudnn=8.3
 
+#Check version of cuda complier
+nvcc --version
+
 ```
 
 Run the check_gpu.py script to see if tensorflow and cude recognizes the GPU
@@ -114,17 +117,16 @@ python3 check_gpu.py
 The output should say that there are 1 GPU available. 
 
 
-## 5. Run basline scheduling algorithms (FCFS, Round-Robin) on ML tasks
+## 5. Run baseline scheduling algorithms (FCFS, Round-Robin, SJF) on ML tasks
 
-Use the 
+Go to /cloudlab-code/baseline/ to find the files for the Python code for each baseline algorithm.
+ 
 
-6. 
+## 6. Run reinforcement learning based scheduling algorithms on tasks
 
-7. Run reinforcement learning based scheduling algorithms on tasks
-
-
-
+Go to /cloudlab-code/RF/ to find the file for the reinforcement learning scheduling algorithm.
 
 
 
+This project was created for AMS 560.
 Contributors: Gabrielle Vaillant, Michael Deisler, Iftekhar Alam
