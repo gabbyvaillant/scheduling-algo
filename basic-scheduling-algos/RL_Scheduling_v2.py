@@ -14,7 +14,7 @@ from stable_baselines3.common.env_checker import check_env
 import time
 import tensorflow as tf
 from collections import deque
-
+import matplotlib.pyplot as plt
 class MatrixMultiplicationJob:
     def __init__(self, matrix_size, job_name):
         self.matrix_size = matrix_size
@@ -83,6 +83,8 @@ class RealGpuSchedulerEnv(gym.Env):
         self.device_count = pynvml.nvmlDeviceGetCount()
         self.max_steps = max_steps
         self.current_step = 0
+        # Store job executions times
+        self.job_history = {gpu_id: [] for gpu_id in range(self.device_count)}
         # State: GPU utilizations and number of pending jobs
         self.observation_space = spaces.Box(
             low=np.array([0.0] * self.device_count + [0.0], dtype=np.float32),
@@ -106,14 +108,21 @@ class RealGpuSchedulerEnv(gym.Env):
         done = False
         # Assume no truncation initially
         truncated = False
+        jobs_completed = 0
         
         if action < self.device_count:
             if jobs:
                 job_id = jobs.pop(0)
+                start_time = time.time()
                 submit_job(action, job_id)
+                end_time = time.time()
+                self.job_history[action].append((job_id.job_name, start_time, end_time))
+                jobs_completed += 1
                 # After submission, fetch new utilization
-                new_util = pynvml.nvmlDeviceGetUtilizationRates(pynvml.nvmlDeviceGetHandleByIndex(action)).gpu / 100.0
-                reward = -new_util  # Penalize high utilization
+                power_draws = [pynvml.nvmlDeviceGetPowerUsage(pynvml.nvmlDeviceGetHandleByIndex(i)) for i in range(self.device_count)]
+                total_power = sum(power_draws)
+                performance = jobs_completed
+                reward = performance  # Higher reward for better efficiency  # Penalize high utilization
             else:
                 reward = -0.01  # Small penalty if no jobs to assign
         else:
@@ -134,6 +143,23 @@ class RealGpuSchedulerEnv(gym.Env):
             truncated = True
         
         return state, reward, done, truncated, {}
+
+    def render_gantt_chart(self, filename="gantt_chart.png"):
+        # Create a Gantt chart to show job schedules
+        fig, ax = plt.subplots(figsize=(10, 6))
+        for gpu_id, jobs in self.job_history.items():
+            for job_name, start_time, end_time in jobs:
+                ax.barh(f"GPU {gpu_id}", end_time - start_time, left=start_time, label=job_name)
+
+        ax.set_xlabel("Time (s)")
+        ax.set_ylabel("GPU")
+        ax.set_title("Gantt Chart of GPU Job Scheduling")
+        handles, labels = ax.get_legend_handles_labels()
+        unique_labels = dict(zip(labels, handles))
+        ax.legend(unique_labels.values(), unique_labels.keys(), loc="upper left")
+        plt.tight_layout()
+        plt.savefig(filename) # Save the chart to a file
+        print(f"Gantt chart saved as {filename}")
     
     def reset(self, seed=None, options=None):
         # Set the random seed for reproducible results
@@ -152,8 +178,9 @@ class RealGpuSchedulerEnv(gym.Env):
     
     def render(self, mode='human'):
         utilizations = [pynvml.nvmlDeviceGetUtilizationRates(pynvml.nvmlDeviceGetHandleByIndex(i)).gpu for i in range(self.device_count)]
+        power_draws = [pynvml.nvmlDeviceGetPowerUsage(pynvml.nvmlDeviceGetHandleByIndex(i)) / 1000.0 for i in range(self.device_count)]
         num_pending = len(get_pending_jobs())
-        print(f"GPU Utilizations: {utilizations}, Pending Jobs: {num_pending}")
+        print(f"GPU Utilizations: {utilizations}, GPU Power Usage: {power_draws}, Pending Jobs: {num_pending}")
 
     def close(self):
         pynvml.nvmlShutdown()
@@ -171,7 +198,7 @@ model = PPO("MlpPolicy", env, verbose=1)
 
 # Train the agent
 print("Starting training...")
-model.learn(total_timesteps=5000)
+model.learn(total_timesteps=10000)
 print("Training completed.")
 
 # Save the model
@@ -191,14 +218,6 @@ while not done:
     obs, reward, done, truncated, info = env.step(action)
     print(f"Action: {action}, Reward: {reward}, Done: {done}")
     env.render()
+    env.render_gantt_chart()
 
 env.close()
-
-
-
-
-# In[ ]:
-
-
-
-
