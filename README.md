@@ -13,7 +13,7 @@ Check to see the resource availability: https://www.cloudlab.us/resinfo.php
 Start an experiment with the following choices:
 - Profile: Open-Stack
 - Hardware type: Cloudlab Wiscosin -> d7525 (or another hardware with GPU access)
-- Number of compute nodes (at Site 1) -> 1
+- Number of compute nodes (at Site 1) -> 0 or 1
 - Schedule experiment for a time where there is resouce avilability 
 
 2. Set up GPU usage monitor
