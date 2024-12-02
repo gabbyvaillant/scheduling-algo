@@ -1,5 +1,4 @@
-# Optimizing GPU Scheduling for Machine Learning Workloads
-
+# Optimizing GPU Scheduling for Machine Learning Workloads ⏱️🖥️
 This project explores scheduling algorithms for deep learning tasks, focusing on optimizing GPU utilization. We compare basic scheduling methods across four deep learning tasks under heavy GPU load, then introduce a reinforcement learning-based approach to improve GPU efficiency. Unlike traditional methods that focus on CPU usage or makespan, our approach prioritizes GPU usage, which is crucial as GPUs are increasingly used to accelerate deep learning. To address the lack of datasets with GPU usage information, we created a set of synthetic deep learning and machine learning tasks to test and refine the algorithms.
 
 
