@@ -137,5 +137,110 @@ Go to /cloudlab-code/RF/ to find the file for the reinforcement learning schedul
 For the Reinforcement learning model, running the model prediction code will simulate GPU scheduling using the trained RL model.
 Load the model and run the code in "...".
 
+
+Ex: Evaluation function and task generator to simulate tasks:
+
+Task Generator:
+```python
+# Task generation function
+def generate_task(task_id):
+    task_types = {
+        "image_classification": {
+            "gpu_demand": (20, 40), "memory_demand": (10, 30), "duration": (5, 10), "priority": (1, 3)
+        },
+        "lstm_training": {
+            "gpu_demand": (30, 50), "memory_demand": (40, 60), "duration": (7, 15), "priority": (2, 4)
+        },
+        "cnn_training": {
+            "gpu_demand": (50, 80), "memory_demand": (30, 50), "duration": (10, 20), "priority": (3, 5)
+        }
+    }
+    task_type = random.choice(list(task_types.keys()))
+    params = task_types[task_type]
+    gpu_demand = random.randint(*params["gpu_demand"])
+    memory_demand = random.randint(*params["memory_demand"])
+    duration = random.randint(*params["duration"])
+    priority = random.randint(*params["priority"])
+
+    return {
+        "id": task_id,
+        "type": task_type,
+        "gpu_demand": gpu_demand,
+        "memory_demand": memory_demand,
+        "duration": duration,
+        "priority": priority,
+        "remaining_duration": duration,
+        "start_time": None
+    }
+```
+
+
+### Evaluation function:
+```python
+import random
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+
+def evaluate_model(model, env, num_tasks=200):
+    # Initialize the environment with a new set of tasks
+    env.tasks = [generate_task(i) for i in range(num_tasks)]
+
+    # Reset the environment to start fresh
+    obs = env.reset()
+
+    # Track rewards and metrics
+    rewards = []
+    total_waiting_time = 0
+    total_time = 0
+
+    while True:
+        # Model predicts the best GPU to schedule the task
+        action, _ = model.predict(obs, deterministic=True)
+
+        # Perform one step in the environment
+        obs, reward, done, _ = env.step(action)
+
+        # Track the reward for this step
+        rewards.append(reward)
+
+        # Track the total waiting time (sum of all task waiting times)
+        total_waiting_time += sum(env.task_waiting_times)
+
+        # Render the environment to visualize the current scheduling (Gantt chart)
+        env.render()
+
+        # Break the loop if all tasks are completed
+        if done:
+            break
+
+        # Update total time (tracking the makespan)
+        total_time += 1
+
+    # Compute average waiting time
+    avg_waiting_time = total_waiting_time / num_tasks
+
+    print(f"Final Makespan (Total Time): {env.total_time}")
+    print(f"Average Waiting Time: {avg_waiting_time:.2f}")
+    print(f"Total Reward: {sum(rewards)}")
+
+    return env.total_time, avg_waiting_time
+```
+
+### Run evaluation on model:
+
+```python
+
+
+env = MLWorkloadSchedulingEnv(num_gpus=2)  # Initialize the environment with 2 GPUs
+
+
+makespan, avg_waiting_time = evaluate_model(model, env, num_tasks=50)
+
+# 4. Print the evaluation results
+print(f"Final Makespan (Total Time): {makespan}")
+print(f"Average Waiting Time: {avg_waiting_time:.2f}")
+
+```
+
 This project was created for AMS 560.
 Contributors: Gabrielle Vaillant, Michael Deisler, Iftekhar Alam
