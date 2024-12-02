@@ -77,7 +77,9 @@ source ~/miniconda3/bin/activate
 conda init --all
 
 ```
-May need to reboot the system again 
+You must exit the node by the command 
+```bash exit ```
+and re ssh into the node for the changes to work (or maybe rebooting would be better)
 
 ```bash
 conda create --name tf_gpu python=3.8
