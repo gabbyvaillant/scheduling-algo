@@ -58,57 +58,38 @@ sudo reboot
 nvidia-smi
 
 ```
-You should get something like the following output: 
-![Alt Text]([scheduling-algo/screenshots
-/gpu-setup.png](https://github.com/gabbyvaillant/scheduling-algo/blob/main/screenshots/gpu-setup.png))
-
 
 ## 4. Create a virtual enviornment to run the machine learning tasks
 
-Install miniconda to create a virtual enviornment on the node 
 ```bash
-mkdir -p ~/miniconda3
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
-bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
-rm ~/miniconda3/miniconda.sh
+python3 -m venv tf
 
-source ~/miniconda3/bin/activate
+source tf/bin/activate
 
-conda init --all
+pip install --upgrade pip
 
-```
-You must exit the node by the command 
-```bash exit ```
-and re ssh into the node for the changes to work (or maybe rebooting would be better)
 
-```bash
-conda create --name tf_gpu python=3.8
+pip install tensorflow[and-cuda]
 
-conda activate tf_gpu
-
-conda install pip
-
-python3 -m pip install 'tensorflow[and-cuda]'
-
-#pip install tensorflow==2.7
-
-conda install -c conda-forge cudatoolkit=11.5 cudnn=8.3
+#Verify setup
+python3 -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
 
 #Check version of cuda complier
 nvcc --version
 
 ```
 
-Run the check_gpu.py script to see if tensorflow and cude recognizes the GPU
+If this doesn't work try this command: 
 
 ```bash
 
-python3 check_gpu.py
+pushd $(dirname $(python -c 'print(__import__("tensorflow").__file__)'))
+ln -svf ../nvidia/*/lib/*.so* .
+popd
 
 ```
-To save and close use hit Shift+control X and hit enter to save
 
-Run the file
+Run the check-gpu.py script to see if tensorflow and cude recognizes the GPU
 
 ```bash
 
