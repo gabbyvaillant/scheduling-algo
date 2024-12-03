@@ -1,7 +1,12 @@
 # Optimizing GPU Scheduling for Machine Learning Workloads ⏱️🖥️
-This project explores scheduling algorithms for deep learning tasks, focusing on optimizing GPU utilization. We compare basic scheduling methods across four deep learning tasks under heavy GPU load, then introduce a reinforcement learning-based approach to improve GPU efficiency. Unlike traditional methods that focus on CPU usage or makespan, our approach prioritizes GPU usage, which is crucial as GPUs are increasingly used to accelerate deep learning. To address the lack of datasets with GPU usage information, we created a set of synthetic deep learning and machine learning tasks to test and refine the algorithms.
+This project compares scheduling algorithms for machine learning tasks, focusing on optimizing GPU usage/power utilization. We compare some basic static scheduling algorithms across different tasks under heavy GPU load with a reinforcement learning-based scheduling algorithms with hopes to improve GPU usage. Traditional methods mainly focus on CPU usage, whereas we focus on GPU usage, which is crucial as GPUs are increasingly used to accelerate deep learning tasks. To address the lack of datasets with GPU usage information, we created a set of tasks (Deep learning and computationally heavy tasks) to test and evaluate the algorithms performance on GPU usage.
+
+We have two options for this project. 
+1. Using cloud lab to work with one single GPU or multiple GPUs (harder to get access)
+2. Simulating multiple GPUs in an enviornment (due to the lack of resources)
 
 
+# Using Cloudlab for GPU access
 ## 1. Set up experiment on Cloud Lab
 This project uses Cloudlab for GPU access. Students in AMS 560 will have access through this link: https://www.cloudlab.us/show-project.php?project=AMS560-SBU
 
