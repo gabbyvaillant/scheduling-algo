@@ -11,7 +11,7 @@ We have two options for this project.
 2. Simulating multiple GPUs in an enviornment (due to the lack of resources)
 
 
-# Using Cloudlab for GPU access
+# Cloudlab for GPU access
 ## 1. Set up experiment on Cloud Lab
 This project uses Cloudlab for GPU access. Students in AMS 560 will have access through this link: https://www.cloudlab.us/show-project.php?project=AMS560-SBU
 
@@ -138,7 +138,7 @@ Go to /cloudlab-code/RF/ to find the file for the reinforcement learning schedul
 
 ---
 
-## Senario 2:  Simulating GPUs
+# Simulating GPUs
 
 
 We provide this option to simulate GPUs instead of using the actual GPUs on cloudlab. We consider this option because it was very diffcult to get access to the nodes with multiple GPUs. While we did achieve some results, there is still this option to consider. 
