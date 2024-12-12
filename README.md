@@ -19,11 +19,16 @@ Check to see the resource availability: https://www.cloudlab.us/resinfo.php
 
 Check to see which hardwares have access to GPUs: https://docs.cloudlab.us/hardware.html
 
+DEPENDING ON YOUR GOAL, CHOOSE WHICH SCENARIO YOU WOULD LIKE TO TEST: 
+
+Single GPU (1.a.) vs multiple GPUs (1.b.)
+
+## 1.a. SINGLE GPU:
 Start an experiment with the following choices:
 - Profile: Open-Stack
 - Hardware type: Cloudlab Wiscosin -> c240g5 (or another hardware with at least 1 GPU)
 - Number of compute nodes (at Site 1) -> 0
-- Schedule experiment for a time where there is resource availability 
+- Schedule experiment for a time when the nodes are availabile 
 
 Open terminal and ssh into node 
 
@@ -31,11 +36,17 @@ Open terminal and ssh into node
 #EXAMPLE:
 ssh vailg@c240g5-110219.wisc.cloudlab.us
 
-
 ```
-## 2. Clone this repository 
 
+## 1.b. MULTIPLE GPU: 
 
+Start an experiment with the following choices:
+- Profile: Open-Stack
+- Hardware type: Cloudlab Wisconin -> c4130
+- Number of compute nodes (at Site 1) -> 0
+- Schedule experiment for a time when the nodes are available
+
+## 2. Clone this repository
 ```bash
 # Install git on node
 
