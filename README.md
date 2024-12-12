@@ -123,6 +123,10 @@ The output should say that there are 1 GPU available.
 ## 5. Run baseline scheduling algorithms (FCFS, Round-Robin, SJF) on ML tasks
 
 Go to /cloudlab-code/baseline/ to find the files for the Python code for each baseline algorithm.
+
+We have provided the code for the fundamental scheduling algorithms that have been used as a baseline to compare with reinforcement algorithm. As long as the repository has been cloned, you should have all of the code available on the node. 
+
+To actually run the code, you must run the following [insert rest here!]
  
 
 ## 6. Run reinforcement learning based scheduling algorithms on tasks
@@ -134,10 +138,10 @@ Go to /cloudlab-code/RF/ to find the file for the reinforcement learning schedul
 
 ---
 
-## RUNNING GPU SIMULATIONS 
+## Senario 2:  Simulating GPUs
 
-For the Reinforcement learning model, running the model prediction code will simulate GPU scheduling using the trained RL model.
-Load the model and run the code in "...".
+
+We provide this option to simulate GPUs instead of using the actual GPUs on cloudlab. We consider this option because it was very diffcult to get access to the nodes with multiple GPUs. While we did achieve some results, there is still this option to consider. 
 
 
 Ex: Evaluation function and task generator to simulate tasks:
