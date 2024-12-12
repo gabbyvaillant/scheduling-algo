@@ -17,7 +17,7 @@ This project uses Cloudlab for GPU access. Students in AMS 560 will have access 
 
 Check to see the resource availability: https://www.cloudlab.us/resinfo.php
 
-Check to see which hardwares have access to GPUs: https://docs.cloudlab.us/hardware.html
+Check to see which servers have access to GPUs: https://docs.cloudlab.us/hardware.html
 
 DEPENDING ON YOUR GOAL, CHOOSE WHICH SCENARIO YOU WOULD LIKE TO TEST: 
 
@@ -80,6 +80,8 @@ nvidia-smi
 
 ```
 
+After setting this up, you should start a new terminal window, and ssh into the node again and use the ```bash nvidia-smi ``` command to monitor the GPU usage while you run the tasks. 
+
 ## 4. Create a virtual enviornment to run the machine learning tasks
 
 ```bash
@@ -117,22 +119,28 @@ Run the check-gpu.py script to see if tensorflow and cude recognizes the GPU
 python3 check_gpu.py
 
 ```
-The output should say that there are 1 GPU available. 
+The output should say that there are one or multiple GPU(s) available depedning on the server you used. 
 
 
-## 5. Run baseline scheduling algorithms (FCFS, Round-Robin, SJF) on ML tasks
+## 5. Run Scheduling Algorithms on ML tasks (includes both fundamental and reinforcement learning):
 
-Go to /cloudlab-code/baseline/ to find the files for the Python code for each baseline algorithm.
+Go to /scheduling-algo/basic-scheduling-algos/ to find the files for the Python code for each baseline algorithm.
 
-We have provided the code for the fundamental scheduling algorithms that have been used as a baseline to compare with reinforcement algorithm. As long as the repository has been cloned, you should have all of the code available on the node. 
+We have provided the code for all scheduling algorithms that have been used for this project. As long as the repository has been cloned, you should have all of the code available on the node. 
 
-To actually run the code, you must run the following [insert rest here!]
- 
+## Directory Overview
 
-## 6. Run reinforcement learning based scheduling algorithms on tasks
+(1) FCFS_scheduling_v2.py
+First come first serve scheduling. For this code, all the tasks are already implemented inside of the .py file. To change the task, mimic the same formatting used in the code. There are also other tasks found in the scheduling-algo/tasks/ directory that can be copied and pasted into this file. After changing that, you need to update the list of tasks and change it to the name of your task. There are comments in the code explaining how to do this.
 
-Go to /cloudlab-code/RF/ to find the file for the reinforcement learning scheduling algorithm.
+(2) RL_Scheduling_v2.py
+Reinforcement learning scheduling algorithm. This code requires the user to have all the tasks in their own indivdual files. For the tasks we used for this report, you can see they are in the same directory, and are called in the code by the name of their file. For the user to use their own deep learning tasks, or use another type from the task directory , just make sure to change the path to the tasks and update the name of the task in the list.
 
+All of the following files are the tasks used for the scheduling algorithms and are further explained in the report and in the comments in each code:
+(3) run_matrix_multiplication.py
+(4) train_deep_learning.py
+(5) train_lstm.py
+(6) train_xgboost.py
 
 
 
