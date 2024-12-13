@@ -91,8 +91,14 @@ source tf/bin/activate
 
 pip install --upgrade pip
 
+#The following file has all the necessary libraries for this project
+#There are a lot of requirements so this may take a while
+pip install -r requirements.txt
 
+#If tensorflow is giving a problem use this command
 pip install tensorflow[and-cuda]
+
+#If the anyjson==0.3.3 is giving a problem, go into the requirements.txt and delete it.
 
 #Verify setup
 python3 -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
@@ -111,8 +117,8 @@ ln -svf ../nvidia/*/lib/*.so* .
 popd
 
 ```
-
-Run the check-gpu.py script to see if tensorflow and cude recognizes the GPU
+Sometimes cuda gives trouble, so try this above command a few times.
+Run the check-gpu.py script to see if tensorflow and cuda recognizes the GPU.
 
 ```bash
 
@@ -130,11 +136,36 @@ We have provided the code for all scheduling algorithms that have been used for 
 
 ## Directory Overview
 
+This directory holds all algos including the reinforcement learning ones.
+
+```bash
+cd basic-scheduling-algos/
+```
+BEFORE RUNNING ANY OF THE SCHEDULING ALGORITHMS TO GET THE GPU USAGE IN A .csv FILE YOU MUST OPEN A NEW TERMINAL WINDOW, SSH INTO THE NODE AND IN THAT NEW TERMINAL ENTER THE FOLLOWING CODE: 
+
+```bash
+nvidia-smi --query-gpu=index,timestamp,name,utilization.gpu,utilization.memory,power.draw --format=csv -l 1 > gpu_usage.csv
+```
+
+THEN, IN THE ORIGINAL TERMINAL WINDOW RUN THE RESPECTIVE COMMAND (```bash python3 insert_scheduling_algo_name.py```)
+
+Once the file is done running, you can force quit the ```bash nvidia-smi ``` command and examine the results. 
+
 (1) FCFS_scheduling_v3.py
-First come first serve scheduling. For this code, all the tasks are already implemented inside of the .py file. To change the task, mimic the same formatting used in the code. There are also other tasks found in the scheduling-algo/tasks/ directory that can be copied and pasted into this file. After changing that, you need to update the list of tasks and change it to the name of your task. There are comments in the code explaining how to do this.
+First come first serve scheduling. For this code, all the tasks are already implemented inside of the .py file. To change the task, mimic the same formatting used in the code. There are also other tasks found in the scheduling-algo/tasks/ directory that can be copied and pasted into this file. After changing that, you need to update the list of tasks and change it to the name of your task. There are comments in the code explaining how to do this. Also, it is interesting to switch the order of the tasks since this scheduling algorithm just goes through the list in order. This code will save a gnatt chart to the directory.
 
 ```bash
 python3 FCFS_scheduling_v3.py
+```
+
+NOTE: if the necessary libraries still aren't install after doing ```bash pip install -r requirements.txt``` then do this:
+
+```bash
+pip install numpy
+pip install tensorflow[and-cuda]
+pip install xgboost
+pip install scikit-learn
+pip install matplotlib
 ```
 
 (2) Lottery_scheduling.py
@@ -152,12 +183,27 @@ python3 WFQ_scheduling.py
 ```
 
 
-
-
 (2) RL_Scheduling_v2.py
 Reinforcement learning scheduling algorithm. This code requires the user to have all the tasks in their own indivdual files. For the tasks we used for this report, you can see they are in the same directory, and are called in the code by the name of their file. For the user to use their own deep learning tasks, or use another type from the task directory , just make sure to change the path to the tasks and update the name of the task in the list.
 
 To run the RL_Scheduling_v2.py file you must enter the follow command:
+
+```bash
+python3 RL_Scheduling_v2.py
+```
+If this does not work because some libraries were not installed in the beginning use the follow code to fix it: 
+
+```bash
+pip install numpy
+pip install tensorflow[and-cuda]
+pip install xgboost
+pip install scikit-learn
+pip install stable_baselines3
+pip install gymnasium
+pip install pynvml
+pip install matplotlib
+
+```
 
 All of the following files are the tasks used for the scheduling algorithms and are further explained in the report and in the comments in each code:
 (3) run_matrix_multiplication.py
