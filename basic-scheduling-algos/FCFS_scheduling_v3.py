@@ -16,9 +16,12 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense
+import matplotlib.pyplot as plt
+
 class FCFS:
     def __init__(self):
         self.job_queue = []
+        self.execution_log = []
     
     def submit_job(self, job):
         """
@@ -27,15 +30,45 @@ class FCFS:
         """
         self.job_queue.append(job)
         print(f"Job {job.job_name} submitted.")
+
+    def render_gantt_chart(self, filename="FCFS_gantt_chart.png"):
+        """Generate a Gantt chart for the logged execution times."""
+        fig, ax = plt.subplots(figsize=(10, 6))
+        colors = plt.cm.tab20.colors
+
+        for idx, log in enumerate(self.execution_log):
+            job_name = log["job_name"]
+            start_time = log["start_time"]
+            end_time = log["end_time"]
+            ax.barh(job_name, end_time - start_time, left=start_time, color=colors[idx % len(colors)])
+
+        ax.set_xlabel("Time (seconds)")
+        ax.set_ylabel("Jobs")
+        ax.set_title("FCFS Scheduling Gantt Chart")
+        plt.grid(axis="x", linestyle="--", alpha=0.7)
+        plt.tight_layout()
+        plt.savefig(filename) # save the chart to a file
+        print(f"Gantt chart saved as {filename}")
     
     def run(self):
         """
         Execute jobs in the order they were submitted.
         """
+        current_time = 0
         while self.job_queue:
             current_job = self.job_queue.pop(0)
+            start_time = current_time
             print(f"Running job: {current_job.job_name}")
-            current_job.run()
+            job_runtime = current_job.run()
+            end_time = start_time + job_runtime
+            # Log execution details
+            self.execution_log.append({
+                "job_name": current_job.job_name,
+                "start_time": start_time,
+                "end_time": end_time,
+            })
+            # Update current time
+            current_time = end_time
         print("All jobs have been completed.")
 
 class MatrixMultiplicationJob:
@@ -63,9 +96,10 @@ class MatrixMultiplicationJob:
         
         # measure the time
         end_time = time.time()
+        execution_time = end_time - start_time
         
         print(f"Job {self.job_name} completed. Time taken: {end_time - start_time} seconds.")
-        return result
+        return execution_time
     
 
 class DeepLearningJob:
@@ -80,11 +114,11 @@ class DeepLearningJob:
     
     def run(self):
         """
-        Train a simple neural network on the MNIST dataset and measure the time taken.
+        Train a simple neural network on the CIFAR-10 dataset and measure the time taken.
         """
         print(f"Job {self.job_name} started.")
         
-        # Load the MNIST dataset
+        # Load the CIFAR-10 dataset
         (train_images, train_labels), (test_images, test_labels) = cifar10.load_data()
         
         # Preprocess the data
@@ -122,9 +156,10 @@ class DeepLearningJob:
         start_time = time.time()
         model.fit(train_images, train_labels, epochs=self.epochs, batch_size=64, validation_data=(test_images, test_labels))
         end_time = time.time()
+        execution_time = end_time - start_time
         
         print(f"Job {self.job_name} completed. Time taken: {end_time - start_time} seconds.")
-        return model
+        return execution_time
 
 class XGBoostJob:
     def __init__(self, n_estimators=100, max_depth=6, job_name="XGBoostJob"):
@@ -164,12 +199,13 @@ class XGBoostJob:
         start_time = time.time()
         model = xgb.train(params, dtrain, num_boost_round=self.n_estimators)
         end_time = time.time()
+        execution_time = end_time - start_time
         # Test model accuracy
         predictions = (model.predict(dtest) > 0.5).astype(int)
         accuracy = accuracy_score(y_test, predictions)
         print(f"Job {self.job_name} completed. Time taken: {end_time - start_time} seconds.")
         print(f"Accuracy of {self.job_name}: {accuracy}")
-        return model
+        return execution_time
 
 class LSTMJob:
     def __init__(self, sequence_length=50, epochs=10, job_name="LSTMJob"):
@@ -219,8 +255,9 @@ class LSTMJob:
         start_time = time.time()
         model.fit(X, y, epochs=self.epochs, batch_size=64, verbose=1)
         end_time = time.time()
+        execution_time = end_time - start_time
         print(f"Job {self.job_name} completed. Time taken: {end_time - start_time} seconds.")
-        return model
+        return execution_time
 
 # Example usage with matrix multiplication and ML jobs
 if __name__ == "__main__":
@@ -239,10 +276,7 @@ if __name__ == "__main__":
     
     # Run the scheduler
     fcfs_scheduler.run()
+    fcfs_scheduler.render_gantt_chart()
 
 
 # In[ ]:
-
-
-
-
