@@ -133,6 +133,12 @@ We have provided the code for all scheduling algorithms that have been used for 
 (1) FCFS_scheduling_v2.py
 First come first serve scheduling. For this code, all the tasks are already implemented inside of the .py file. To change the task, mimic the same formatting used in the code. There are also other tasks found in the scheduling-algo/tasks/ directory that can be copied and pasted into this file. After changing that, you need to update the list of tasks and change it to the name of your task. There are comments in the code explaining how to do this.
 
+TO RUN THIS CODE:
+
+```python
+python3 FCFS_scheduling_v2.py
+```
+
 (2) RL_Scheduling_v2.py
 Reinforcement learning scheduling algorithm. This code requires the user to have all the tasks in their own indivdual files. For the tasks we used for this report, you can see they are in the same directory, and are called in the code by the name of their file. For the user to use their own deep learning tasks, or use another type from the task directory , just make sure to change the path to the tasks and update the name of the task in the list.
 
