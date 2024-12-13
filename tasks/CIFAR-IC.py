@@ -1,13 +1,33 @@
+import numpy as np
 import tensorflow as tf
 from tensorflow.keras import layers, models
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.callbacks import ReduceLROnPlateau
+import time
 
-#See the available GPUs on CloudLab
+class CIFAR10Task:
+    def __init__(self, epochs=50, job_name="CIFAR10Task"):
+        """
+        Initialize the CIFAR-10 task with specific parameters.
+        :param epochs: Number of epochs for training.
+        :param job_name: Name of the job for identification.
+        """
+        self.epochs = epochs
+        self.job_name = job_name
+
+    def get_command(self):
+        return f"python cifar10_task.py --epochs {self.epochs}"
+
+# Initialize CIFAR-10 task
+cifar10_task = CIFAR10Task(epochs=50, job_name="CIFAR10_Task1")
+
+# Start job
+print(f"Job {cifar10_task.job_name} started.")
+
+# See the available GPUs on CloudLab
 print("Available GPUs:", tf.config.list_physical_devices('GPU'))
 
-
-#Enable GPU memory growth
+# Enable GPU memory growth
 gpus = tf.config.list_physical_devices('GPU')
 if gpus:
     try:
@@ -17,16 +37,15 @@ if gpus:
     except RuntimeError as e:
         print(e)
 
-
-#CIFAR-10 dataset
+# CIFAR-10 dataset
 (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
 
-#Preprocessing
+# Preprocessing
 x_train, x_test = x_train / 255.0, x_test / 255.0
 y_train = tf.keras.utils.to_categorical(y_train, 10)
 y_test = tf.keras.utils.to_categorical(y_test, 10)
 
-#Data Augmentation
+# Data Augmentation
 datagen = ImageDataGenerator(
     rotation_range=15,
     width_shift_range=0.1,
@@ -58,25 +77,27 @@ model = models.Sequential([
     layers.Dense(10, activation='softmax')
 ])
 
+# Compile the model
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
-model.compile(optimizer='adam',
-              loss='categorical_crossentropy',
-              metrics=['accuracy'])
-
-
+# Learning rate scheduler
 reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=3, verbose=1)
 
-
+# Train the model and measure time taken
+start_time = time.time()
 history = model.fit(
     datagen.flow(x_train, y_train, batch_size=64),
-    epochs=50,
+    epochs=cifar10_task.epochs,
     validation_data=(x_test, y_test),
     callbacks=[reduce_lr]
 )
+end_time = time.time()
 
-
+# Evaluate the model
 test_loss, test_acc = model.evaluate(x_test, y_test, verbose=2)
 print(f"Test accuracy: {test_acc}")
 
-# Save the model in the recommended Keras format
-model.save("cnn_cifar10_improved.keras")
+# Save the model
+model.save("cnn_cifar10_improved_task.keras")
+
+print(f"Job {cifar10_task.job_name} completed. Time taken: {end_time - start_time} seconds.")
