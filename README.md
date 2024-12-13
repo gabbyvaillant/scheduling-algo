@@ -136,7 +136,7 @@ We have provided the code for all scheduling algorithms that have been used for 
 
 ## Directory Overview
 
-This directory holds all algos including the reinforcement learning ones.
+This directory holds all scheduling algorithms INCLUDING the reinforcement learning ones.
 
 ```bash
 cd basic-scheduling-algos/
@@ -149,10 +149,12 @@ nvidia-smi --query-gpu=index,timestamp,name,utilization.gpu,utilization.memory,p
 
 THEN, IN THE ORIGINAL TERMINAL WINDOW RUN THE RESPECTIVE COMMAND (```bash python3 insert_scheduling_algo_name.py```)
 
-Once the file is done running, you can force quit the ```bash nvidia-smi ``` command and examine the results. 
+Once the file is done running, you can force quit the ```bash nvidia-smi ``` command and examine the results. The graphs used in the report were created using Excel. Each code will also save a gnatt chart showcasing the order of execution.
 
 (1) FCFS_scheduling_v3.py
-First come first serve scheduling. For this code, all the tasks are already implemented inside of the .py file. To change the task, mimic the same formatting used in the code. There are also other tasks found in the scheduling-algo/tasks/ directory that can be copied and pasted into this file. After changing that, you need to update the list of tasks and change it to the name of your task. There are comments in the code explaining how to do this. Also, it is interesting to switch the order of the tasks since this scheduling algorithm just goes through the list in order. This code will save a gnatt chart to the directory.
+First come first serve scheduling. For this code, all the tasks are already implemented inside of the .py file. To change the task, mimic the same formatting (making the task it's own class) used in the code. There are also other tasks found in the scheduling-algo/tasks/ directory that can be copied and pasted into this file. After changing that, you need to update the list of tasks and change it to the name of your task.
+
+For this specific scheduler, it is interesting to switch the order of the tasks since this scheduling algorithm just goes through the list in order.
 
 ```bash
 python3 FCFS_scheduling_v3.py
@@ -169,14 +171,14 @@ pip install matplotlib
 ```
 
 (2) Lottery_scheduling.py
-Lottery scheduling uses the same type formatting as the FCFS_scheduling_v3.py where all the tasks are already implemented inside of that same file.
+All tasks are already implemented inside of that same file.
 
 ```bash
 python3 Lottery_scheduling.py
 ```
 
 (3) WFQ_scheduling.py
-Weighted Freuquency Scheduling also uses the same type of formatting as the previous ones. 
+ALl tasks are already implemented inside of that same file.
 
 ```bash
 python3 WFQ_scheduling.py
