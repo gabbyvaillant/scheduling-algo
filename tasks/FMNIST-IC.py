@@ -1,21 +1,26 @@
+import numpy as np
 import tensorflow as tf
 from tensorflow.keras import layers, models
 from tensorflow.keras.datasets import fashion_mnist
 from tensorflow.keras.callbacks import ReduceLROnPlateau
+import time
 
-print("Available GPUs:", tf.config.list_physical_devices('GPU'))
+class FMNISTTask:
+    def __init__(self, epochs=10, job_name="FMNISTTask"):
+        
+        self.epochs = epochs
+        self.job_name = job_name
 
-# Enable GPU memory growth
-gpus = tf.config.list_physical_devices('GPU')
-if gpus:
-    try:
-        for gpu in gpus:
-            tf.config.experimental.set_memory_growth(gpu, True)
-        print("GPU is enabled.")
-    except RuntimeError as e:
-        print(e)
+    def get_command(self):
+        return f"python fmnist_task.py --epochs {self.epochs}"
 
-# Load Fashion MNIST dataset
+#Choose large number of epochs for stress testing of GPUs
+fmnist_task = FMNISTTask(epochs=50, job_name="FMNIST_Task1")
+
+
+print(f"Job {fmnist_task.job_name} started.")
+
+# Load the Fashion MNIST dataset
 (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
 
 # Preprocess the data
@@ -41,21 +46,25 @@ model = models.Sequential([
 # Compile the model
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
-# Learning rate scheduler
 reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=3, verbose=1)
 
-# Train the model
+# Train the model and measure time taken
+start_time = time.time()
 history = model.fit(
     x_train, y_train,
-    epochs=10,
+    epochs=fmnist_task.epochs,
     validation_data=(x_test, y_test),
     callbacks=[reduce_lr],
     batch_size=64
 )
+end_time = time.time()
 
-# Evaluate the model
+
 test_loss, test_acc = model.evaluate(x_test, y_test, verbose=2)
+
 print(f"Test accuracy: {test_acc}")
 
-# Save the model
+
+print(f"Job {fmnist_task.job_name} completed. Time taken: {end_time - start_time} seconds.")
+
 model.save("cnn_fashion_mnist.keras")
