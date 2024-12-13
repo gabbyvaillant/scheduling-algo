@@ -260,6 +260,7 @@ def generate_task(task_id):
     }
 ```
 
+The taks generated can be configured by changing the values in the `task_types` dictionary, the duration priority and usage can all be configured to not only test more variety of jobs but train them. 
 
 ### Evaluation function:
 ```python
@@ -327,6 +328,85 @@ print(f"Final Makespan (Total Time): {makespan}")
 print(f"Average Waiting Time: {avg_waiting_time:.2f}")
 
 ```
+
+## For other algorithms
+Round Robin, FIrst Come  First Serve, and Least Loaded GPU are also simulated on multiple GPUs. Their files can be found in the `basic-scheduling-algos` folder. 
+
+Each algorithm simulation is self contained in their codes so they can be run by themselves without issue. The code is configured to run each individual algorithm and produces a Gantt chart and GPU usage for evaluation.
+
+I will show for the Round Robin scheduler how it works:
+
+```python
+
+class RoundRobinScheduler:
+    def __init__(self, time_slice):
+        self.time_slice = time_slice
+        self.job_queue = []
+        self.execution_log = []  # To track the execution for Gantt chart
+        self.gpu_log = []        # To track GPU usage and memory usage over time
+
+    def add_job(self, job):
+        self.job_queue.append(job)
+
+    def run(self):
+        current_time = 0
+        current_gpu_usage = 0  # Start with no GPU usage
+        current_gpu_memory = 0  # Start with no GPU memory usage
+
+        while self.job_queue:
+            current_job = self.job_queue.pop(0)
+            start_time = current_time
+            executed_time = min(self.time_slice, current_job.remaining_time)
+
+            # Run the job
+            if current_job.run(self.time_slice):
+                print(f"Job {current_job.job_name} completed at time {current_time + executed_time:.2f}s.")
+            else:
+                print(f"Job {current_job.job_name} paused at time {current_time + executed_time:.2f}s.")
+                self.job_queue.append(current_job)
+
+            # Log the execution
+            self.execution_log.append((current_job.job_name, start_time, start_time + executed_time))
+
+            # Simulate GPU usage and memory usage with smooth transition
+            time_increment = 0.1  # Log GPU usage every 0.1 seconds
+            t = start_time
+            while t < start_time + executed_time:
+                # Simulate a smooth transition between jobs for both GPU usage and memory
+                current_gpu_usage = self._smooth_transition(current_gpu_usage, current_job.avg_gpu_usage)
+                current_gpu_memory = self._smooth_transition(current_gpu_memory, current_job.avg_gpu_memory)
+                self.gpu_log.append((t, current_gpu_usage, current_gpu_memory))
+                t += time_increment
+
+            current_time += executed_time
+```
+
+This snippet of code from `RR-multi-gpu-simulation.py` encompasses the Round Robin algorithm and also simulates the GPUs. Just running the code in the file will do everything automatically.
+
+### Inputting your own jobs:
+
+```python
+
+scheduler.add_job(Job("XGBoost_job1", 2.77, 30, 40))       # Job name, total time, avg GPU usage, avg GPU memory usage
+scheduler.add_job(Job("DL_job1", 80.83, 70, 60))
+scheduler.add_job(Job("MatrixMultiplication_job1", 7.24, 40, 50))
+scheduler.add_job(Job("LSTM_job1", 34.18, 60, 50))
+
+```
+This is how jobs are added to the scheduler, all the others work simmilarly. Here you can add as many jobs as you want to test with the `.add` method and the name of job, duration of job, and the resource utilization of the job can be inputted. 
+Like this you can test your own jobs. 
+
+### Least Loaded GPU:
+
+```Python
+tasks = [(random.randint(5, 15), random.uniform(30, 80)) for _ in range(10)]
+```
+
+The least loaded GPU algorithm reandomly generates jobs, jobs generated can be configured by changing values in this line above, where first numbers are the duration and second is the GPU usage.
+
+### Conclusion
+Overall each simulation is self contained and runs just by running the code, the tasks used to schedule can be changed my modifying the values and the codes automatically run the algorithm and produces the plots needed for evaluation with no additional work needed. 
+
 
 This project was created for AMS 560.
 Contributors: Gabrielle Vaillant, Michael Deisler, Iftekhar Alam
