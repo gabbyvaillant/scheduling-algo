@@ -18,7 +18,7 @@ from tensorflow.keras.callbacks import ReduceLROnPlateau
 import time
 
 class LSTMTextClassification:
-    def __init__(self, epochs=50, batch_size=512, max_features=20000, maxlen=500, job_name="LSTMTextClassificationStressTest"):
+    def __init__(self, epochs=50, batch_size=512, max_features=20000, maxlen=500, job_name="LSTMTextClassification"):
         self.epochs = epochs
         self.batch_size = batch_size
         self.max_features = max_features
