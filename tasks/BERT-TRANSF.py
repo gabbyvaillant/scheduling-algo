@@ -1,7 +1,26 @@
 import tensorflow as tf
 from transformers import BertTokenizer, TFBertForSequenceClassification
-from sklearn.model_selection import train_test_split
 import tensorflow_datasets as tfds
+import time
+
+class SentimentAnalysisTask:
+    def __init__(self, epochs=3, job_name="SentimentAnalysisTask"):
+        """
+        Initialize the sentiment analysis task with specific parameters.
+        :param epochs: Number of epochs for training.
+        :param job_name: Name of the job for identification.
+        """
+        self.epochs = epochs
+        self.job_name = job_name
+
+    def get_command(self):
+        return f"python sentiment_analysis.py --epochs {self.epochs}"
+
+# Initialize Sentiment Analysis Task
+sentiment_task = SentimentAnalysisTask(epochs=3, job_name="Sentiment_Analysis_Job")
+
+# Start job
+print(f"Job {sentiment_task.job_name} started.")
 
 # Enable GPU usage
 print("Available GPUs:", tf.config.list_physical_devices('GPU'))
@@ -43,8 +62,10 @@ model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=2e-5),
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
               metrics=['accuracy'])
 
-# Train the model
-history = model.fit(train_dataset, epochs=3, validation_data=test_dataset)
+# Train the model and measure time taken
+start_time = time.time()
+history = model.fit(train_dataset, epochs=sentiment_task.epochs, validation_data=test_dataset)
+end_time = time.time()
 
 # Evaluate the model
 test_loss, test_acc = model.evaluate(test_dataset, verbose=2)
@@ -52,3 +73,6 @@ print(f"Test accuracy: {test_acc}")
 
 # Save the model
 model.save("bert_sentiment_analysis_imdb")
+
+print(f"Job {sentiment_task.job_name} completed. Time taken: {end_time - start_time} seconds.")
+
