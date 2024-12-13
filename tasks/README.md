@@ -1,12 +1,12 @@
-## Directory Overview 
+# Directory Overview 
 
 In this directory, there is a set of deep learning tasks that the user can use to test the scheduling algorithms implemented for this project. Since there are not a lot of publically available datasets giving information on the tasks that data centers execute and the GPU usage associated with them, we have created some tasks to mimic a data center on a smaller scale and can tap into GPUs to create our own GPU usage data.
 
-LSTM tasks: 
+## LSTM tasks: 
 
 (1) IMBD-LSTM.py: Using IMBD dataset
 
-Image Classification tasks:
+## Image Classification tasks:
 
 (1) FMNIST-IC.py: Fashion MNIST dataset
 
@@ -15,7 +15,7 @@ Image Classification tasks:
 (3) MNIST-IC.py: Another MNIST task to use
 
 
-Transformer tasks:
+## Transformer tasks:
 
 (1) BERT-TRANSF.py
 
